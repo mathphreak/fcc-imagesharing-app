@@ -3,37 +3,39 @@
 <html>
 
 	<head>
-		<title>Clementine.js - The elegant and lightweight full stack JavaScript boilerplate.</title>
+		<title>fcc-imagesharing-app</title>
 
 		<link href="/public/css/main.css" rel="stylesheet" type="text/css">
 	</head>
 
 	<header>
-		<p>Welcome, <span id="display-name"></span>!</p>
-		<a class="menu" href="/profile">Profile</a>
+		<p>Welcome, <span class="auth-hidden">guest</span><span hidden class="auth-shown">@<span id="username"></span></span>!</p>
+		<a class="menu" href="/">Home</a>
 		<p>|</p>
-		<a class="menu" href="/logout">Logout</a>
+		<a hidden class="menu auth-shown" href="/my">Profile</a>
+		<p hidden class="auth-shown">|</p>
+		<a hidden class="menu auth-shown" href="/logout">Logout</a>
+		<a class="menu auth-hidden" href="/login">Login</a>
 	</header>
 
 	<body>
-		<div class="container">
-			<img src="/public/img/clementine_150.png" />
-			<br />
-			<p class="clementine-text">Clementine.js</p>
+		<div hidden class="container auth-shown">
+			<h3>Submit a new image!</h3>
+			<form id="submit-image" method="post" action="/api/images">
+        <label>
+          URL
+          <input type="url" name="url">
+        </label>
+        <input type="submit" value="Submit">
+      </form>
 		</div>
 
-		<div class="container">
-			<p>You have clicked the button <span id="click-nbr"></span> times.</p>
-			<br />
-			<div class="btn-container">
-				<button type="submit" class="btn btn-add">CLICK ME!</button>
-				<button class="btn btn-delete">RESET</button>
-			</div>
-		</div>
+    <div class="container" id="image-wall"></div>
 
-		<script type="text/javascript" src="common/ajax-functions.js"></script>
-		<script type="text/javascript" src="controllers/click-controller.client.js"></script>
-		<script type="text/javascript" src="controllers/user-controller.client.js"></script>
+		<script type="text/javascript" src="/common/ajax-functions.js"></script>
+    <script src="https://npmcdn.com/masonry-layout@4.1/dist/masonry.pkgd.min.js"></script>
+		<script type="text/javascript" src="/controllers/image-controller.client.js"></script>
+		<script type="text/javascript" src="/controllers/user-controller.client.js"></script>
 	</body>
 
 </html>

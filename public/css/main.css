@@ -64,7 +64,7 @@ header p {
 	color: #FF630D;
 }
 
-header a ~ p {
+header a ~ p:not([hidden]) {
 	margin: 0;
 	padding: 0;
 	display: inline;
@@ -98,11 +98,6 @@ header a ~ p {
 }
 
 /****** Logo Div Styling ******/
-
-img {
-	margin: 0 auto;
-	display: block;
-}
 
 .clementine-text { /* Styling for the Clementine.js text */
 	padding: 0;
@@ -153,7 +148,7 @@ img {
 
 /****** Profile Styling ******/
 
-.github-profile {
+.twitter-profile {
 	width: 350px;
 	height: 200px;
 	border-radius: 3px;
@@ -163,15 +158,15 @@ img {
 	color: #000;
 }
 
-.github-profile p:first-child {
+.twitter-profile p:first-child {
 	padding-top: 16px;
 }
 
-.github-profile p:nth-child(5) {
+.twitter-profile p:nth-child(5) {
 	margin-bottom: 16px
 }
 
-.github-profile p {
+.twitter-profile p {
 	margin: 0 0 0 16px;
 	text-align: left;
 }
@@ -184,16 +179,16 @@ span {
 	font-weight: 500;
 }
 
-.github-profile > img {
+.twitter-profile > img {
 	padding-top: 16px;
 	margin-bottom: 16px;
 }
 
-.github-profile .menu:hover {
+.twitter-profile .menu:hover {
 	color: #FFA000;
 }
 
-.github-profile .menu:active {
+.twitter-profile .menu:active {
 	color: #FF630D;
 }
 
@@ -201,4 +196,25 @@ span {
 	color: #FFFFFF;
 	display: inline;
 	margin: 0;
+}
+
+/* Misc Styling */
+
+#submit-image :invalid {
+  border: 2px solid red;
+}
+
+#image-wall .image {
+  display: inline-block;
+  margin: 4px;
+  border: 2px solid #444;
+  padding: 4px;
+}
+
+#image-wall .image img {
+  width: 180px;
+}
+
+#image-wall .image .delete {
+  float: right;
 }

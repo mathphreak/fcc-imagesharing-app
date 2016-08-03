@@ -1,3 +1,3 @@
-# fcc-
+# fcc-imagesharing-app
 
-It's the **** app from FreeCodeCamp. Based on clementine.js
+It's the image sharing app from FreeCodeCamp. Based on clementine.js

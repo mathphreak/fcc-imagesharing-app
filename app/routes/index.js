@@ -1,7 +1,9 @@
 'use strict';
 
+var bodyParser = require('body-parser');
+
 var path = process.cwd();
-var ClickHandler = require(path + '/app/controllers/click-handler.server.js');
+var ImageHandler = require(path + '/app/controllers/image-handler.server.js');
 
 module.exports = function (app, passport) {
   function isLoggedIn(req, res, next) {
@@ -11,10 +13,22 @@ module.exports = function (app, passport) {
     res.redirect('/login');
   }
 
-  var clickHandler = new ClickHandler();
+  var imageHandler = new ImageHandler();
+
+  var formParser = bodyParser.urlencoded({extended: false});
 
   app.route('/')
+    .get(function (req, res) {
+      res.sendFile(path + '/public/index.html');
+    });
+
+  app.route('/my')
     .get(isLoggedIn, function (req, res) {
+      res.sendFile(path + '/public/index.html');
+    });
+
+  app.route('/users/:id')
+    .get(function (req, res) {
       res.sendFile(path + '/public/index.html');
     });
 
@@ -34,22 +48,36 @@ module.exports = function (app, passport) {
       res.sendFile(path + '/public/profile.html');
     });
 
-  app.route('/api/:id')
-    .get(isLoggedIn, function (req, res) {
-      res.json(req.user.github);
+  app.route('/api/me')
+    .get(function (req, res) {
+      if (req.isAuthenticated()) {
+        res.json(req.user);
+      } else {
+        res.json(false);
+      }
     });
 
-  app.route('/auth/github')
-    .get(passport.authenticate('github'));
+  app.route('/auth/twitter')
+    .get(passport.authenticate('twitter'));
 
-  app.route('/auth/github/callback')
-    .get(passport.authenticate('github', {
+  app.route('/auth/twitter/callback')
+    .get(passport.authenticate('twitter', {
       successRedirect: '/',
       failureRedirect: '/login'
     }));
 
-  app.route('/api/:id/clicks')
-    .get(isLoggedIn, clickHandler.getClicks)
-    .post(isLoggedIn, clickHandler.addClick)
-    .delete(isLoggedIn, clickHandler.resetClicks);
+  app.route('/api/images')
+    .get(imageHandler.getAllImages)
+    .post(isLoggedIn, formParser, imageHandler.createImage);
+
+  app.route('/api/images/:id')
+    .delete(isLoggedIn, imageHandler.deleteImage);
+
+  app.route('/api/images/my')
+    .get(isLoggedIn, function (req, res) {
+      res.redirect('/api/images/users/' + req.user._id);
+    });
+
+  app.route('/api/images/users/:id')
+    .get(imageHandler.getUserImages);
 };
